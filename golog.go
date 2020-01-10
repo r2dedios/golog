@@ -22,18 +22,24 @@ var (
 )
 
 // Init create the loggers for each log level
-func Init(okHandle io.Writer, infoHandle io.Writer, warningHandle io.Writer, errorHandle io.Writer, debugHandle io.Writer, header string, debugMode bool) {
-	ok = log.New(okHandle, header, log.Ldate|log.Ltime)
-	info = log.New(infoHandle, header, log.Ldate|log.Ltime)
-	warning = log.New(warningHandle, header, log.Ldate|log.Ltime)
-	error = log.New(errorHandle, header, log.Ldate|log.Ltime)
+func Init(okHandle io.Writer, infoHandle io.Writer, warningHandle io.Writer, errorHandle io.Writer, debugHandle io.Writer, header *string, debugMode bool) {
+  var logHeader string
+  if header == nil {
+    logHeader = ""
+  } else {
+    logHeader = *header
+  }
+	ok = log.New(okHandle, logHeader, log.Ldate|log.Ltime)
+	info = log.New(infoHandle, logHeader, log.Ldate|log.Ltime)
+	warning = log.New(warningHandle, logHeader, log.Ldate|log.Ltime)
+	error = log.New(errorHandle, logHeader, log.Ldate|log.Ltime)
 
 	if debugMode {
-		debug = log.New(debugHandle, header, log.Ldate|log.Ltime)
-		WarnMsg("Enabled Debug logger Mode")
+		debug = log.New(debugHandle, logHeader, log.Ldate|log.Ltime)
+		Warn("Enabled Debug logger Mode")
 	} else {
-		debug = log.New(ioutil.Discard, header, log.Ldate|log.Ltime)
-		DebugMsg("Disabled Debug logger Mode")
+		debug = log.New(ioutil.Discard, logHeader, log.Ldate|log.Ltime)
+		Debug("Disabled Debug logger Mode")
 	}
 }
 
@@ -42,29 +48,29 @@ func formatMsgString(msg ...interface{}) string {
 	return fmt.Sprintf(msg[0].(string), msg[1:]...)
 }
 
-// OkMsg prints a OK level message
-func OkMsg(msg ...interface{}) {
+// Ok prints a OK level message
+func Ok(msg ...interface{}) {
 	ok.Printf("- OK - %s", formatMsgString(msg...))
 }
 
-// InfoMsg prints a Info level message
-func InfoMsg(msg ...interface{}) {
+// Info prints a Info level message
+func Info(msg ...interface{}) {
 	info.Printf("- INFO - %s", formatMsgString(msg...))
 }
 
-// WarnMsg prints a Warning level message
-func WarnMsg(msg ...interface{}) {
+// Warn prints a Warning level message
+func Warn(msg ...interface{}) {
 	warning.Printf("- WARN - %s", formatMsgString(msg...))
 }
 
-// ErrMsg prints a Error level message
-func ErrMsg(msg ...interface{}) {
+// Err prints a Error level message
+func Err(msg ...interface{}) {
 	_, fileName, fileLine, _ := runtime.Caller(1)
 	error.Printf("- ERROR - %s:%d:  %s", path.Base(fileName), fileLine, formatMsgString(msg...))
 }
 
-// DebugMsg prints a Debug level message
-func DebugMsg(msg ...interface{}) {
+// Debug prints a Debug level message
+func Debug(msg ...interface{}) {
 	_, fileName, fileLine, _ := runtime.Caller(1)
 	debug.Printf("- DEBUG - %s:%d:  %s", path.Base(fileName), fileLine, formatMsgString(msg...))
 }

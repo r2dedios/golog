@@ -14,7 +14,7 @@ func TestInit(t *testing.T) {
 	stdout := &bytes.Buffer{}
 	stderr := &bytes.Buffer{}
 
-	Init(stdout, stdout, stdout, stderr, stdout, "", true)
+	Init(stdout, stdout, stdout, stderr, stdout, nil, true)
 	if ok.Writer() != stdout {
 		t.Error("OK level output is not correct")
 	}
@@ -36,12 +36,12 @@ func TestInit(t *testing.T) {
 	}
 }
 
-// TestOkMsg checks the OK level message function
-func TestOkMsg(t *testing.T) {
+// TestOk checks the OK level message function
+func TestOk(t *testing.T) {
 	buffer := &bytes.Buffer{}
 	ok.SetOutput(buffer)
 	entry := "ok level message"
-	OkMsg(entry)
+	Ok(entry)
 	testRegex := fmt.Sprintf("^%s - OK - %s\\n$", dateRegex, entry)
 	matched, _ := regexp.MatchString(testRegex, buffer.String())
 	if !matched {
@@ -49,12 +49,12 @@ func TestOkMsg(t *testing.T) {
 	}
 }
 
-// TestInfoMsg checks the Informative level message function
-func TestInfoMsg(t *testing.T) {
+// TestInfo checks the Informative level message function
+func TestInfo(t *testing.T) {
 	buffer := &bytes.Buffer{}
 	info.SetOutput(buffer)
 	entry := "info level message"
-	InfoMsg(entry)
+	Info(entry)
 	testRegex := fmt.Sprintf("^%s - INFO - %s\\n$", dateRegex, entry)
 	matched, _ := regexp.MatchString(testRegex, buffer.String())
 	if !matched {
@@ -62,12 +62,12 @@ func TestInfoMsg(t *testing.T) {
 	}
 }
 
-// TestWarnMsg checks the Warning level message function
-func TestWarnMsg(t *testing.T) {
+// TestWarn checks the Warning level message function
+func TestWarn(t *testing.T) {
 	buffer := &bytes.Buffer{}
 	warning.SetOutput(buffer)
 	entry := "warning level message"
-	WarnMsg(entry)
+	Warn(entry)
 	testRegex := fmt.Sprintf("^%s - WARN - %s\\n$", dateRegex, entry)
 	matched, _ := regexp.MatchString(testRegex, buffer.String())
 	if !matched {
@@ -75,12 +75,12 @@ func TestWarnMsg(t *testing.T) {
 	}
 }
 
-// TestErrMsg checks the Error level message function
-func TestErrMsg(t *testing.T) {
+// TestErr checks the Error level message function
+func TestErr(t *testing.T) {
 	buffer := &bytes.Buffer{}
 	error.SetOutput(buffer)
 	entry := "error level message"
-	ErrMsg(entry)
+	Err(entry)
 	testRegex := fmt.Sprintf("^%s - ERROR - \\w*.go:\\d*:  %s\\n$", dateRegex, entry)
 	matched, _ := regexp.MatchString(testRegex, buffer.String())
 	if !matched {
@@ -88,12 +88,12 @@ func TestErrMsg(t *testing.T) {
 	}
 }
 
-// TestDebugMsg checks the Debug level message function
-func TestDebugMsg(t *testing.T) {
+// TestDebug checks the Debug level message function
+func TestDebug(t *testing.T) {
 	buffer := &bytes.Buffer{}
 	debug.SetOutput(buffer)
 	entry := "debug level message"
-	DebugMsg(entry)
+	Debug(entry)
 	testRegex := fmt.Sprintf("^%s - DEBUG - \\w*.go:\\d*:  %s\\n$", dateRegex, entry)
 	matched, _ := regexp.MatchString(testRegex, buffer.String())
 	if !matched {

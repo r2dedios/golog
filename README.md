@@ -8,29 +8,28 @@ Golang Logging custom module
 Package golog provides functions for logging in go programs with different
 severity levels and a optional debug mode
 ```go
-import "golog"
+import "github.com/r2dedios/golog"
 ```
 
 
 ## Functions
 
-```go
-// DebugMsg prints a Debug level message
-func DebugMsg(msg ...interface{})
+```
+func Debug(msg ...interface{})
+    Debug prints a Debug level message
 
-// ErrMsg prints a Error level message
-func ErrMsg(msg ...interface{})
+func Err(msg ...interface{})
+    Err prints a Error level message
 
-// InfoMsg prints a Info level message
-func InfoMsg(msg ...interface{})
+func Info(msg ...interface{})
+    Info prints a Info level message
 
-// Init create the loggers for each log level
-func Init(okHandle io.Writer, infoHandle io.Writer, warningHandle io.Writer, errorHandle io.Writer, debugHandle io.Writer, header string, debugMode bool)
+func Init(okHandle io.Writer, infoHandle io.Writer, warningHandle io.Writer, errorHandle io.Writer, debugHandle io.Writer, header *string, debugMode bool)
+    Init create the loggers for each log level
 
-// OkMsg prints a OK level message
-func OkMsg(msg ...interface{})
+func Ok(msg ...interface{})
+    Ok prints a OK level message
 
-// WarnMsg prints a Warning level message
-func WarnMsg(msg ...interface{})
-
+func Warn(msg ...interface{})
+    Warn prints a Warning level message
 ```
